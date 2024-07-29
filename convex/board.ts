@@ -1,4 +1,4 @@
-// API route to create board
+// API route to create/update/delere a board
 
 import { v } from "convex/values";
 import { mutation } from "./_generated/server";
