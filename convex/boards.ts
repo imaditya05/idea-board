@@ -2,10 +2,13 @@
 
 import { v } from "convex/values";
 import { query } from "./_generated/server";
+import { getAllOrThrow } from "convex-helpers/server/relationships";
 
 export const get = query({
   args: {
     orgId: v.string(),
+    search: v.optional(v.string()),
+    favourites: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
@@ -14,11 +17,44 @@ export const get = query({
       throw new Error("Unauthorized Access");
     }
 
-    const boards = await ctx.db
-      .query("boards")
-      .withIndex("by_org", (q) => q.eq("orgId", args.orgId))
-      .order("desc")
-      .collect();
+    if (args.favourites) {
+      const favouritedBoards = await ctx.db
+        .query("userFavourites")
+        .withIndex("by_user_org", (q) =>
+          q.eq("userId", identity.subject).eq("orgId", args.orgId)
+        )
+        .order("desc")
+        .collect();
+
+      const ids = favouritedBoards.map((b) => b.boardId);
+
+      const boards = await getAllOrThrow(ctx.db, ids);
+
+      return boards.map((board) => ({
+        ...board,
+        isFavourite: true,
+      }));
+    }
+
+    // If title exist: filter else : show all boards
+
+    const title = args.search as string;
+    let boards = [];
+
+    if (title) {
+      boards = await ctx.db
+        .query("boards")
+        .withSearchIndex("search_title", (q) =>
+          q.search("title", title).eq("orgId", args.orgId)
+        )
+        .collect();
+    } else {
+      boards = await ctx.db
+        .query("boards")
+        .withIndex("by_org", (q) => q.eq("orgId", args.orgId))
+        .order("desc")
+        .collect();
+    }
 
     const boardsWithFavouriteRealtion = boards.map((board) => {
       return ctx.db
