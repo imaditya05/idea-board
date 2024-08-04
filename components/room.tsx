@@ -10,9 +10,10 @@ import {
 interface RoomProps {
   children: ReactNode;
   roomId: string;
+  fallback: ReactNode;
 }
 
-export function Room({ children, roomId }: RoomProps) {
+export function Room({ children, roomId , fallback}: RoomProps) {
   return (
     <LiveblocksProvider
       publicApiKey={
@@ -20,7 +21,7 @@ export function Room({ children, roomId }: RoomProps) {
       }
     >
       <RoomProvider id={roomId}>
-        <ClientSideSuspense fallback={<div>Loading…</div>}>
+        <ClientSideSuspense fallback={fallback}>
           {() => children}
         </ClientSideSuspense>
       </RoomProvider>
