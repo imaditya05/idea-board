@@ -13,13 +13,9 @@ interface RoomProps {
   fallback: ReactNode;
 }
 
-export function Room({ children, roomId , fallback}: RoomProps) {
+export function Room({ children, roomId, fallback }: RoomProps) {
   return (
-    <LiveblocksProvider
-      publicApiKey={
-        "pk_dev_5R_Cgg11VXveNivF0_U-lnmTYTuoSKJ3tdRK96rUnB-1eic2NRpEXszbm-Y3N7GW"
-      }
-    >
+    <LiveblocksProvider authEndpoint="/api/liveblocks-auth">
       <RoomProvider id={roomId}>
         <ClientSideSuspense fallback={fallback}>
           {() => children}
