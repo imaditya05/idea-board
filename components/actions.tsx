@@ -48,7 +48,7 @@ export const Actions = ({
       .catch(() => toast.error("Failed to delete board"));
   };
   return (
-    <div className="absolute z-50 top-1 right-1">
+    <div className=" relative z-50 top-1 right-1">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
         <DropdownMenuContent
