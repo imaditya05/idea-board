@@ -9,22 +9,39 @@ import {
   Undo2,
 } from "lucide-react";
 import { ToolButton } from "../tool-button";
+import { CanvasMode, CanvasState } from "@/types/canvas";
 
-const Toolbar = () => {
+interface ToolbarProps {
+  canvasState: CanvasState;
+  setCanvasState: (newState: CanvasState) => void;
+  undo: () => void;
+  redo: () => void;
+  canUndo: boolean;
+  canRedo: boolean;
+}
+
+const Toolbar = ({
+  canvasState,
+  setCanvasState,
+  undo,
+  redo,
+  canRedo,
+  canUndo,
+}: ToolbarProps) => {
   return (
     <div className="absolute top-[50%] -translate-y-[50%] left-2 flex flex-col gap-y-4">
       <div className=" bg-white flex flex-col items-center gap-y-1 p-1.5 shadow-md rounded-md">
         <ToolButton
           label="Select"
           icon={MousePointer2}
-          onClick={() => {}}
-          isActive={false}
+          onClick={() => setCanvasState({ mode: CanvasMode.None })}
+          isActive={canvasState.mode === CanvasMode.None}
         />
         <ToolButton
           label="Text"
           icon={Type}
-          onClick={() => {}}
-          isActive={false}
+          onClick={() => setCanvasState({ mode: CanvasMode.Inserting })}
+          isActive={canvasState.mode === CanvasMode.Inserting}
         />
         <ToolButton
           label="Sticky Note"
@@ -52,17 +69,17 @@ const Toolbar = () => {
         />
       </div>
       <div className="flex flex-col items-center shadow-md rounded-md p-1.5 bg-white">
-      <ToolButton
+        <ToolButton
           label="Undo"
           icon={Undo2}
-          onClick={() => {}}
-          isDisabled={false}
+          onClick={undo}
+          isDisabled={!canUndo}
         />
         <ToolButton
           label="Redo"
           icon={Redo2}
-          onClick={() => {}}
-          isDisabled={false}
+          onClick={redo}
+          isDisabled={!canRedo}
         />
       </div>
     </div>
