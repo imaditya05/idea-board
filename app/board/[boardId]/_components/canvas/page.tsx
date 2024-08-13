@@ -46,6 +46,11 @@ const Canvas = ({ boardId }: canvasProps) => {
     []
   );
 
+  //This will remove the cursor when the user leaves the canvas
+  const onPointerLeave = useMutation(({ setMyPresence }) => {
+    setMyPresence({ cursor: null });
+  }, []);
+
   return (
     <main className="h-full w-full relative bg-neutral-100 touch-none">
       <Info boardId={boardId} />
@@ -63,6 +68,7 @@ const Canvas = ({ boardId }: canvasProps) => {
         className="h-[100vh] w-[100vw]"
         onWheel={onWheel}
         onPointerMove={onPointerMove}
+        onPointerLeave={onPointerLeave}
       >
         <g>
           <CursorsPresence />
