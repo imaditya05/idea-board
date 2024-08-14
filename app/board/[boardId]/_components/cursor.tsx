@@ -37,7 +37,7 @@ export const Cursor = memo(({ connectionId }: CursorProps) => {
         }}
       />
       <div
-        className="absoulte left-5 px-1.5 py-0.5 rounded-md text-xs text-white font-semibold"
+        className="absolute left-5 px-1.5 py-0.5 rounded-md text-xs text-white font-semibold"
         style={{ backgroundColor: connectionIdToColor(connectionId) }}
       >
         {name}
@@ -45,3 +45,5 @@ export const Cursor = memo(({ connectionId }: CursorProps) => {
     </foreignObject>
   );
 });
+
+Cursor.displayName = "Cursor";
