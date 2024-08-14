@@ -1,7 +1,6 @@
 "use client";
 
 import { useOthersConnectionIds } from "@liveblocks/react/suspense";
-import { connect } from "http2";
 import { memo } from "react";
 import { Cursor } from "./cursor";
 
