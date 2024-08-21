@@ -5,6 +5,10 @@ import { Camera, Color } from "@/types/canvas";
 import { useMutation, useSelf } from "@liveblocks/react/suspense";
 import { memo } from "react";
 import { ColorPicker } from "./color-picker";
+import { useDeleteLayers } from "@/hooks/use-delete-layers";
+import { Hint } from "@/components/hint";
+import { Button } from "@/components/ui/button";
+import { Trash2 } from "lucide-react";
 
 interface SelectionToolsProps {
   camera: Camera;
@@ -15,7 +19,7 @@ export const SelectionTools = memo(
   ({ camera, setLastUsedColor }: SelectionToolsProps) => {
     const selection = useSelf((me) => me.presence.selection);
 
-    const setFill = useMutation (
+    const setFill = useMutation(
       ({ storage }, fill: Color) => {
         const liveLayers = storage.get("layers");
         setLastUsedColor(fill);
@@ -26,6 +30,8 @@ export const SelectionTools = memo(
       },
       [selection, setLastUsedColor]
     );
+
+    const deleteLayers = useDeleteLayers();
 
     const selectionBounds = useSelectionBounds();
 
@@ -43,6 +49,13 @@ export const SelectionTools = memo(
         }}
       >
         <ColorPicker onChange={setFill} />
+        <div className="flex items-center pl-2 ml-2 border-l border-neutral-200">
+          <Hint label="Delete">
+            <Button variant="board" size="icon" onClick={deleteLayers}>
+              <Trash2 />
+            </Button>
+          </Hint>
+        </div>
       </div>
     );
   }
