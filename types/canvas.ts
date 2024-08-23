@@ -97,7 +97,7 @@ export type CanvasState =
     }
   | {
       mode: CanvasMode.SelectionNet;
-      orgin: Point;
+      origin: Point;
       current?: Point;
     }
   | {
