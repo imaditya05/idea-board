@@ -21,10 +21,12 @@ import {
   useHistory,
   useMutation,
   useOthersMapped,
+  useSelf,
   useStorage,
 } from "@liveblocks/react/suspense";
 import { CursorsPresence } from "../cursors-presence";
 import {
+  colorToCSS,
   connectionIdToColor,
   findIntersectingLayersWithRectangle,
   penPointsToPathLayer,
@@ -35,6 +37,7 @@ import { LiveObject } from "@liveblocks/client";
 import { LayerPreview } from "../layer-preview";
 import { SelectionBox } from "../selection-box";
 import { SelectionTools } from "../selectionTools";
+import { Path } from "../path";
 
 const MAX_LAYERS = 100;
 
@@ -48,6 +51,8 @@ const Canvas = ({ boardId }: canvasProps) => {
   });
 
   const layerIds = useStorage((root) => root.layerIds);
+
+  const pencilDraft = useSelf((me) => me.presence.pencilDraft);
 
   const [lastUsedColor, setLastUsedColor] = useState<Color>({
     r: 0,
@@ -422,6 +427,14 @@ const Canvas = ({ boardId }: canvasProps) => {
               />
             )}
           <CursorsPresence />
+          {pencilDraft != null && pencilDraft.length > 0 && (
+            <Path
+              points={pencilDraft}
+              fill={colorToCSS(lastUsedColor)}
+              x={0}
+              y={0}
+            />
+          )}
         </g>
       </svg>
     </main>
