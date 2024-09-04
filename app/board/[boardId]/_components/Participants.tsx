@@ -1,7 +1,7 @@
 "use client";
 
 import { useOthers, useSelf } from "@liveblocks/react/suspense";
-import { UserAvatar } from "../user-avatar";
+import { UserAvatar } from "./user-avatar";
 import { connectionIdToColor } from "@/lib/utils";
 
 const MAX_SHOWN_USERS = 1;

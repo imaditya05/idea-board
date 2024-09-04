@@ -1,9 +1,9 @@
 "use client";
 
 import { useCallback, useMemo, useState } from "react";
-import Info from "../info/page";
-import Participants from "../participants/page";
-import Toolbar from "../toolbar/page";
+import Info from "./info";
+import Participants from "./Participants";
+import Toolbar from "./Toolbar";
 import { nanoid } from "nanoid";
 import {
   Camera,
@@ -24,7 +24,7 @@ import {
   useSelf,
   useStorage,
 } from "@liveblocks/react/suspense";
-import { CursorsPresence } from "../cursors-presence";
+import { CursorsPresence } from "./cursors-presence";
 import {
   colorToCSS,
   connectionIdToColor,
@@ -34,18 +34,18 @@ import {
   resizeBounds,
 } from "@/lib/utils";
 import { LiveObject } from "@liveblocks/client";
-import { LayerPreview } from "../layer-preview";
-import { SelectionBox } from "../selection-box";
-import { SelectionTools } from "../selectionTools";
-import { Path } from "../path";
+import { LayerPreview } from "./layer-preview";
+import { SelectionBox } from "./selection-box";
+import { SelectionTools } from "./selectionTools";
+import { Path } from "./path";
 
 const MAX_LAYERS = 100;
 
-interface canvasProps {
+interface CanvasProps {
   boardId: string;
 }
 
-const Canvas = ({ boardId }: canvasProps) => {
+export const Canvas = ({ boardId }: CanvasProps) => {
   const [canvasState, setCanvasState] = useState<CanvasState>({
     mode: CanvasMode.None,
   });
@@ -441,4 +441,3 @@ const Canvas = ({ boardId }: canvasProps) => {
   );
 };
 
-export default Canvas;

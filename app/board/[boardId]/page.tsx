@@ -1,6 +1,6 @@
-import Canvas from "./_components/canvas/page";
+import { Canvas } from "./_components/canvas";
 import { Room } from "@/components/room";
-import { Loading } from "./_components/loading/page";
+import { Loading } from "./_components/Loading";
 
 interface boardIdProps {
   params: {
